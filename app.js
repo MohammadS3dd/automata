@@ -22,20 +22,14 @@ const nextNodes = (node, alphabet) => {
     return nexts
 }
 
-const nextSet = (table, nodes) => {
-    const next = []
-    for (const node of nodes) {
-        /// inja momkene ride bashim
-        next.push(...nextNodes(node, alphabet))
-    }
-    return next
-}
-
-console.log(nextSet(transition,[transition['q0'], transition['q1']]))
-
-const getUnusedStates = () => {
-
-}
+// const nextSet = (table, nodes) => {
+//     const next = []
+//     for (const node of nodes) {
+//         /// inja momkene ride bashim
+//         next.push(...nextNodes(node, alphabet))
+//     }
+//     return next
+// }
 
 const union = (setA, setB) => {
     let _union = new Set(setA)
@@ -44,6 +38,23 @@ const union = (setA, setB) => {
     }
     return _union
 }
+
+const getUsedStates = (start) => {
+    let usedStates = [start]
+    let lastUsedStateLength = 0
+
+    while (usedStates.length != lastUsedStateLength) {
+        lastUsedStateLength = usedStates.length
+        for (const state of usedStates) {
+            const nextNodeList = nextNodes(transition[state], alphabet)
+            usedStates = union(usedStates, nextNodeList)
+        }
+    }
+
+    return usedStates
+}
+
+console.log(getUsedStates(start))
 
 // Remove the unrechable states
 const removeUnrechable = (table) => {
