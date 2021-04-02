@@ -1,10 +1,10 @@
 // Transition Table
 const transition = {
-    'q0': { a: 'q1', b: 'q3' },
-    'q1': { a: 'q0', b: 'q3' },
-    'q2': { a: 'q1', b: 'q4' },
-    'q3': { a: 'q5', b: 'q5' },
-    'q4': { a: 'q3', b: 'q3' },
+    'q0': { a: 'q3', b: 'q1' },
+    'q1': { a: 'q2', b: 'q5' },
+    'q2': { a: 'q2', b: 'q2' },
+    'q3': { a: 'q0', b: 'q4' },
+    'q4': { a: 'q2', b: 'q5' },
     'q5': { a: 'q5', b: 'q5' }
 }
 
@@ -12,7 +12,7 @@ const start = 'q0'
 
 const alphabet = ['a', 'b']
 
-const finish = ['q3', 'q5']
+const finish = ['q1', 'q2', 'q4']
 
 const nextNodes = (node, alphabet) => {
     const nexts = []
