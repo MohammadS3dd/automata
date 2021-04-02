@@ -68,7 +68,39 @@ const removeUnrechable = (table) => {
     return usedTable
 }
 
-console.log(removeUnrechable(transition))
+const areInSameSet = (stateA, stateB, setArray) => {
+    let returnBoolean = false
+    setArray.forEach(set => {
+        if (set.includes(stateA) && set.includes(stateB)) {
+            returnBoolean = true
+        }
+    })
+    return returnBoolean
+}
+
+const areDistinguishable = (stateA, stateB, alphabet, setArray, transition) => {
+    let distinguishable;
+    alphabet.forEach(alpha => {
+        terminalA = transition[stateA][alpha]
+        terminalB = transition[stateB][alpha]
+
+        if (!areInSameSet(terminalA, terminalB)) {
+            distinguishable = true
+        }
+    })
+    return distinguishable
+}
+
+// 'q0': { a: 'q1', b: 'q3' },
+// 'q1': { a: 'q0', b: 'q3' },
+// 'q2': { a: 'q1', b: 'q4' },
+// 'q3': { a: 'q5', b: 'q5' },
+// 'q4': { a: 'q3', b: 'q3' },
+// 'q5': { a: 'q5', b: 'q5' }
+
+console.log(areDistinguishable(
+    'q0', 'q1', alphabet, [['q0', 'q1'], ['q3', 'q5']], removeUnrechable(transition)
+))
 
 // Function to minimize the given transition table
 const minimize = (table) => {
