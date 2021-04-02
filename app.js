@@ -39,29 +39,36 @@ const union = (setA, setB) => {
     return _union
 }
 
-const getUsedStates = (start) => {
+// Returns the states that are reachable by the DFA starting state
+const getUsedStates = (start, table) => {
     let usedStates = [start]
     let lastUsedStateLength = 0
 
     while (usedStates.length != lastUsedStateLength) {
         lastUsedStateLength = usedStates.length
         for (const state of usedStates) {
-            const nextNodeList = nextNodes(transition[state], alphabet)
+            const nextNodeList = nextNodes(table[state], alphabet)
             usedStates = union(usedStates, nextNodeList)
         }
     }
 
-    return usedStates
+    return Array.from(usedStates)
 }
-
-console.log(getUsedStates(start))
 
 // Remove the unrechable states
 const removeUnrechable = (table) => {
-    const nodes = Object.keys(table)
-
-    const usage = {}
+    const used = getUsedStates(start, table)
+    const usedTable = {}
+    Object.assign(usedTable, table)
+    Object.keys(table).forEach(key => {
+        if (!used.includes(key)) {
+            delete usedTable[key]
+        }
+    })
+    return usedTable
 }
+
+console.log(removeUnrechable(transition))
 
 // Function to minimize the given transition table
 const minimize = (table) => {
