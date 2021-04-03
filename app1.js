@@ -143,6 +143,19 @@ const partition = (startingPartition) => {
     return {partitioning , last:p}
 }
 
+const transitionMap = (partition ,table) => {
+    let map = {}
+    for(item of partition){
+        let joinedName = item.join('')
+        if(joinedName){
+            
+            for(node of item){
+                map[node] = joinedName
+            }
+        }
+    }
+    return map
+}
 
 // Function to minimize the given transition table
 const minimize = (table) => {
@@ -154,6 +167,8 @@ const minimize = (table) => {
 
     const partitions = partition(startingPartition)
     console.log({ reachable, table }, partitions['partitioning'], partitions['last']  );
+
+    console.log( transitionMap(partitions['last']) )
     // let prevPartitionLen = startingPartition.length
     // const p1 = nextPartition(startingPartition) 
     // while(prevPartitionLen)
